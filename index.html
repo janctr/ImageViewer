@@ -1,9 +1,20 @@
 <div qv-extension style="height: 100%;" class="ng-scope image-viewer-container">
-    <div class="image-viewer-box">
+    <div class="image-viewer-control left" ng-click="prevImage()">
+        <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="16,25 34,50 34,0" fill="#FFF" />
+        </svg>
+
     </div>
-    <!-- <div class="image-viewer-controls">
-        <button ng-click="prevImage()">Back</button>
-        <button ng-click="nextImage()">Next</button>
-        <span>{{ currentIndex }}</span>
-    </div> -->
+    <div class="image-viewer-box">
+        <img class="image" ng-repeat="imageUrl in imageUrls track by $index" src="{{imageUrl}}"
+            ng-show="{{$index}} === currentIndex" />
+        <span class="current-index">
+            {{currentIndex + 1}} of {{ numImages }}
+        </span>
+    </div>
+    <div class="image-viewer-control right" ng-click="nextImage()">
+        <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="16,0 16,50 34,25" fill="#FFF" />
+        </svg>
+    </div>
 </div>
