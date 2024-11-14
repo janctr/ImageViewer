@@ -12,6 +12,65 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
         );
     }
 
+    function formatDescription(description) {
+        description = description.replace('<italic>', '<em>');
+        description = description.replace('</italic>', '</em>');
+
+        description = description.replace('<bold>', '<b>');
+        description = description.replace('</bold>', '</b>');
+
+        description = description.replace('<underline>', '<u>');
+        description = description.replace('</underline>', '</u>');
+
+        ['red', 'blue', 'orange'].forEach((color) => {
+            description = description.replace(
+                `<${color}>`,
+                `<span style="color: ${color} !important;">`
+            );
+            description = description.replace(`</${color}>`, '</span>');
+        });
+
+        return description;
+    }
+
+    function getImages(layout) {
+        console.log('layout: ', layout);
+
+        const indexes = {
+            imageUrlDimension: 0,
+            imageTitleDimension: 1,
+            imageDescriptionDimension: 2,
+        };
+
+        const {
+            qHyperCube: { qDimensionInfo },
+        } = layout;
+
+        [
+            'imageUrlDimension',
+            'imageTitleDimension',
+            'imageDescriptionDimension',
+        ].forEach((dim) => {
+            if (!layout.imageViewerDimensions) return;
+
+            if (layout.imageViewerDimensions[dim]) {
+                indexes[dim] = qDimensionInfo.findIndex(
+                    (column) =>
+                        column.qFallbackTitle ===
+                        layout.imageViewerDimensions[dim]
+                );
+            }
+        });
+
+        return layout.qHyperCube.qDataPages[0].qMatrix.map((row) => ({
+            imageUrl: row[indexes.imageUrlDimension]?.qText,
+            imageTitle: row[indexes.imageTitleDimension]?.qText,
+            imageDescription:
+                'Lorem <bold>ipsum dolor sit amet</bold>, <italic><red>consectetur</red></italic> adipiscing elit. <underline><red>Morbi varius</red> <blue>massa non</blue> <orange>enim pellentesque</orange></underline>, at laoreet tellus gravida. Morbi pulvinar libero lacus, id ullamcorper nisl efficitur ac. Vestibulum eros magna, ornare non placerat at, imperdiet a velit. Pellentesque sodales mauris id faucibus maximus. Aliquam vulputate dictum est vel tristique. Integer condimentum sapien sed aliquam elementum. Vestibulum nec convallis enim. Maecenas eget aliquam nunc. Ut congue diam dolor, a convallis leo suscipit in. Aliquam erat volutpat. Morbi ut quam eu magna mattis hendrerit. Proin nec turpis tincidunt, viverra orci id, fermentum risus. Maecenas quis quam a elit egestas commodo in at risus. Etiam tristique ligula eget diam convallis lobortis.',
+            // imageDescription: row[indexes.imageDescriptionDimension]?.qText,
+        }));
+    }
+
     return {
         template: template,
         initialProperties: {
@@ -20,8 +79,8 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
                 qMeasures: [],
                 qInitialDataFetch: [
                     {
-                        qWidth: 2,
-                        qHeight: 50,
+                        qWidth: 3,
+                        qHeight: 1000,
                     },
                 ],
             },
@@ -37,17 +96,24 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
                     translation: 'Image Viewer Dimensions',
                     ref: 'imageViewerDimensions',
                     items: {
-                        keyDimension: {
+                        imageUrlDimension: {
                             type: 'string',
-                            ref: 'imageViewerDimensions.keyDimension',
-                            label: 'Key Dimension',
+                            ref: 'imageViewerDimensions.imageUrlDimension',
+                            label: 'Image URL Dimension',
                             defaultValue: '',
                             expression: 'optional',
                         },
-                        imageDimension: {
+                        imageTitleDimension: {
                             type: 'string',
-                            ref: 'imageViewerDimensions.imageDimension',
-                            label: 'Image Dimension',
+                            ref: 'imageViewerDimensions.imageTitleDimension',
+                            label: 'Image Title Dimension',
+                            defaultValue: '',
+                            expression: 'optional',
+                        },
+                        imageDescriptionDimension: {
+                            type: 'string',
+                            ref: 'imageViewerDimensions.imageDescriptionDimension',
+                            label: 'Image Description Dimension',
                             defaultValue: '',
                             expression: 'optional',
                         },
@@ -56,7 +122,7 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
                 dimensions: {
                     uses: 'dimensions',
                     min: 1,
-                    max: 1,
+                    max: 3,
                 },
                 sorting: {
                     uses: 'sorting',
@@ -85,12 +151,16 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
         controller: [
             '$scope',
             function ($scope) {
-                //add your rendering code here
-                $scope.html = 'Hello World';
+                $scope.isFullscreen = false;
+                $scope.toggleFullscreen = function () {
+                    $scope.isFullscreen = !$scope.isFullscreen;
+                };
 
+                $scope.formatDescription = formatDescription;
                 $scope.currentIndex = 0;
                 $scope.numImages = getNumImages($scope.layout);
                 $scope.imageUrls = getImageUrls($scope.layout);
+                $scope.images = getImages($scope.layout);
 
                 $scope.prevImage = function () {
                     console.log('Previous image');
@@ -121,6 +191,9 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
                     $scope.currentIndex = 0;
                     $scope.numImages = getNumImages($scope.layout);
                     $scope.imageUrls = getImageUrls($scope.layout);
+                    $scope.images = getImages($scope.layout);
+
+                    console.log('images: ', $scope.images);
                 });
             },
         ],

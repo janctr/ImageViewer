@@ -1,20 +1,99 @@
-<div qv-extension style="height: 100%;" class="ng-scope image-viewer-container">
-    <div class="image-viewer-control left" ng-click="prevImage()">
-        <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="16,25 34,50 34,0" fill="#FFF" />
-        </svg>
+<div qv-extension
+     style="height: 100%;"
+     class="ng-scope image-viewer-container">
+
+    <div class="image-viewer-box">
+
+        <div class="image-inner-container"
+             ng-repeat="image in images track by $index"
+             ng-show="{{$index}} === currentIndex">
+            <div class="image">
+                <div class="image-viewer-control left"
+                     ng-click="prevImage()">
+                    <svg viewBox="0 0 50 50"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="16,25 34,50 34,0"
+                                 fill="#FFF" />
+                    </svg>
+                </div>
+
+                <!-- <span class="image-title"
+                      ng-if="image.imageTitle">
+                    {{ image.imageTitle }}
+                </span> -->
+                <img ng-src="{{image.imageUrl}}"
+                     ng-dblclick="toggleFullscreen()" />
+                <span class="current-index">
+                    {{currentIndex + 1}} of {{ numImages }}
+                </span>
+
+                <div class="image-viewer-control right"
+                     ng-click="nextImage()">
+                    <svg viewBox="0 0 50 50"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="16,0 16,50 34,25"
+                                 fill="#FFF" />
+                    </svg>
+                </div>
+            </div>
+
+
+            <div class="image-info"
+                 ng-if="image.imageDescription ">
+                <h2 class="image-title">{{ image.imageTitle }}</h2>
+                <p class="image-description"
+                   ng-bind-html="formatDescription(image.imageDescription)"></p>
+            </div>
+        </div>
 
     </div>
-    <div class="image-viewer-box">
-        <img class="image" ng-repeat="imageUrl in imageUrls track by $index" src="{{imageUrl}}"
-            ng-show="{{$index}} === currentIndex" />
-        <span class="current-index">
-            {{currentIndex + 1}} of {{ numImages }}
-        </span>
-    </div>
-    <div class="image-viewer-control right" ng-click="nextImage()">
-        <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="16,0 16,50 34,25" fill="#FFF" />
-        </svg>
-    </div>
+
+    <!-- <div class="fullscreen-wrapper"
+         ng-if="isFullscreen">
+
+        <div class="image-viewer-box fullscreen">
+            <div class="image-inner-container"
+                 ng-repeat="image in images track by $index"
+                 ng-show="{{$index}} === currentIndex">
+                <div class="image">
+                    <div class="image-viewer-control left"
+                         ng-click="prevImage()">
+                        <svg viewBox="0 0 50 50"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="16,25 34,50 34,0"
+                                     fill="#FFF" />
+                        </svg>
+                    </div>
+
+                    <span class="image-title"
+                          ng-if="image.imageTitle">
+                        {{ image.imageTitle }}
+                    </span>
+                    <img ng-src="{{image.imageUrl}}" />
+                    <span class="current-index">
+                        {{currentIndex + 1}} of {{ numImages }}
+                    </span>
+
+                    <div class="image-viewer-control right"
+                         ng-click="nextImage()">
+                        <svg viewBox="0 0 50 50"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="16,0 16,50 34,25"
+                                     fill="#FFF" />
+                        </svg>
+                    </div>
+                </div>
+
+
+                <div class="image-description"
+                     ng-if="image.imageDescription ">
+                    <h2>{{ image.imageTitle }}</h2>
+                    <p ng-bind-html="formatDescription(image.imageDescription)">
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div> -->
+
 </div>
