@@ -65,9 +65,9 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
         return layout.qHyperCube.qDataPages[0].qMatrix.map((row) => ({
             imageUrl: row[indexes.imageUrlDimension]?.qText,
             imageTitle: row[indexes.imageTitleDimension]?.qText,
-            imageDescription:
-                'Lorem <bold>ipsum dolor sit amet</bold>, <italic><red>consectetur</red></italic> adipiscing elit. <underline><red>Morbi varius</red> <blue>massa non</blue> <orange>enim pellentesque</orange></underline>, at laoreet tellus gravida. Morbi pulvinar libero lacus, id ullamcorper nisl efficitur ac. Vestibulum eros magna, ornare non placerat at, imperdiet a velit. Pellentesque sodales mauris id faucibus maximus. Aliquam vulputate dictum est vel tristique. Integer condimentum sapien sed aliquam elementum. Vestibulum nec convallis enim. Maecenas eget aliquam nunc. Ut congue diam dolor, a convallis leo suscipit in. Aliquam erat volutpat. Morbi ut quam eu magna mattis hendrerit. Proin nec turpis tincidunt, viverra orci id, fermentum risus. Maecenas quis quam a elit egestas commodo in at risus. Etiam tristique ligula eget diam convallis lobortis.',
-            // imageDescription: row[indexes.imageDescriptionDimension]?.qText,
+            // imageDescription:
+            //     'Lorem <bold>ipsum dolor sit amet</bold>, <italic><red>consectetur</red></italic> adipiscing elit. <underline><red>Morbi varius</red> <blue>massa non</blue> <orange>enim pellentesque</orange></underline>, at laoreet tellus gravida. Morbi pulvinar libero lacus, id ullamcorper nisl efficitur ac. Vestibulum eros magna, ornare non placerat at, imperdiet a velit. Pellentesque sodales mauris id faucibus maximus. Aliquam vulputate dictum est vel tristique. Integer condimentum sapien sed aliquam elementum. Vestibulum nec convallis enim. Maecenas eget aliquam nunc. Ut congue diam dolor, a convallis leo suscipit in. Aliquam erat volutpat. Morbi ut quam eu magna mattis hendrerit. Proin nec turpis tincidunt, viverra orci id, fermentum risus. Maecenas quis quam a elit egestas commodo in at risus. Etiam tristique ligula eget diam convallis lobortis.',
+            imageDescription: row[indexes.imageDescriptionDimension]?.qText,
         }));
     }
 
