@@ -13,21 +13,21 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
     }
 
     function formatDescription(description) {
-        description = description.replace('<italic>', '<em>');
-        description = description.replace('</italic>', '</em>');
+        description = description.replaceAll('<italic>', '<em>');
+        description = description.replaceAll('</italic>', '</em>');
 
-        description = description.replace('<bold>', '<b>');
-        description = description.replace('</bold>', '</b>');
+        description = description.replaceAll('<bold>', '<b>');
+        description = description.replaceAll('</bold>', '</b>');
 
-        description = description.replace('<underline>', '<u>');
-        description = description.replace('</underline>', '</u>');
+        description = description.replaceAll('<underline>', '<u>');
+        description = description.replaceAll('</underline>', '</u>');
 
-        ['red', 'blue', 'orange'].forEach((color) => {
-            description = description.replace(
+        ['red', 'blue', 'orange', 'brown', 'green'].forEach((color) => {
+            description = description.replaceAll(
                 `<${color}>`,
                 `<span style="color: ${color} !important;">`
             );
-            description = description.replace(`</${color}>`, '</span>');
+            description = description.replaceAll(`</${color}>`, '</span>');
         });
 
         return description;
