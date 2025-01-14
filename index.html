@@ -17,15 +17,22 @@
                     </svg>
                 </div>
 
-                <!-- <span class="image-title"
-                      ng-if="image.imageTitle">
-                    {{ image.imageTitle }}
-                </span> -->
                 <img ng-src="{{image.imageUrl}}"
                      ng-dblclick="toggleFullscreen()" />
-                <span class="current-index">
+
+                <span class="current-index"
+                      ng-click="isImageOptionsDropdownOpen = !isImageOptionsDropdownOpen">
                     {{currentIndex + 1}} of {{ numImages }}
                 </span>
+                <div class="image-selection-dropdown"
+                     ng-show="isImageOptionsDropdownOpen">
+                    <ul class="scrollbar">
+                        <li ng-repeat="imageOption in imageOptions"
+                            ng-click="selectImage(imageOption.value)">
+                            {{ imageOption.title }}
+                        </li>
+                    </ul>
+                </div>
 
                 <div class="image-viewer-control right"
                      ng-click="nextImage()">

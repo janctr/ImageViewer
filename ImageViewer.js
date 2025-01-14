@@ -175,6 +175,21 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
                     );
                 };
 
+                $scope.isImageOptionsDropdownOpen = false;
+                $scope.imageOptions = getImages($scope.layout).map(
+                    (image, index) => {
+                        return {
+                            title: 'Image ' + (index + 1),
+                            value: index,
+                        };
+                    }
+                );
+
+                $scope.selectImage = function (imageIndex) {
+                    $scope.currentIndex = imageIndex;
+                    isImageOptionsDropdownOpen = false;
+                };
+
                 $scope.prevImage = function () {
                     console.log('Previous image');
 
