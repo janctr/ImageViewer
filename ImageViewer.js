@@ -117,6 +117,13 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
                             defaultValue: '',
                             expression: 'optional',
                         },
+                        imageDescriptionWidth: {
+                            type: 'number',
+                            ref: 'imageViewerDimensions.imageDescriptionWidth',
+                            label: 'Image Description Box Width',
+                            defaultValue: 600,
+                            expression: 'optional',
+                        },
                     },
                 },
                 dimensions: {
@@ -161,6 +168,12 @@ define(['qlik', 'text!./index.html', 'css!./index.css'], function (
                 $scope.numImages = getNumImages($scope.layout);
                 $scope.imageUrls = getImageUrls($scope.layout);
                 $scope.images = getImages($scope.layout);
+                $scope.getDescriptionBoxWidth = function () {
+                    return (
+                        ($scope.layout.imageViewerDimensions
+                            .imageDescriptionWidth || 600) + 'px'
+                    );
+                };
 
                 $scope.prevImage = function () {
                     console.log('Previous image');

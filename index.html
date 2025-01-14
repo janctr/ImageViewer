@@ -39,7 +39,8 @@
 
 
             <div class="image-info"
-                 ng-if="image.imageDescription ">
+                 ng-if="image.imageDescription "
+                 ng-style="{'width': getDescriptionBoxWidth()}">
                 <h2 class="image-title">{{ image.imageTitle }}</h2>
                 <p class="image-description"
                    ng-bind-html="formatDescription(image.imageDescription)"></p>
